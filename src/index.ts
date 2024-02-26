@@ -1,9 +1,10 @@
 import fastify from 'fastify'
-import dotenv from 'dotenv'
-
-dotenv.config()
+import drizzlePlugin from './plugins/drizzle'
+import * as schema from './database/schema'
 
 const app = fastify({ logger: true })
+
+app.register(drizzlePlugin, { schema })
 
 const start = async () => {
   try {
