@@ -5,8 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon ./src/index.ts",
-    "drizzle:migrate": "ts-node src/migrate.ts",
-    "drizzle:seed": "ts-node src/seeds.ts",
+    "drizzle:migrate": "ts-node src/database/migrate.ts",
+    "drizzle:seed": "ts-node src/database/seeds.ts",
     "drizzle:generate": "drizzle-kit generate:pg --config=drizzle.config.ts",
     "drizzle:studio": "drizzle-kit studio --verbose"
   },
@@ -20,6 +20,7 @@
   "author": "jstarnate16@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.29.3",
     "fastify": "^4.26.1",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.11.19",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
