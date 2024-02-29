@@ -38,3 +38,22 @@ export const priorities = pgTable(
     color: varchar('color').notNull()
   }
 )
+
+export const tags = pgTable(
+  'tags',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    userId: varchar('userId').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+    name: varchar('name').notNull()
+  }
+)
+
+export const settings = pgTable(
+  'settings',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    userId: varchar('userId').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+    hideFinishedTasks: boolean('hideFinishedTasks').default(true),
+    darkMode: boolean('darkMode').default(false)
+  }
+)
