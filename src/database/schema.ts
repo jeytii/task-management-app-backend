@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm'
-import { type AnyPgColumn, boolean, date, pgTable, text, timestamp, uniqueIndex, uuid, varchar } from 'drizzle-orm/pg-core'
+import { type AnyPgColumn, boolean, date, pgTable, pgEnum, text, timestamp, uniqueIndex, uuid, varchar } from 'drizzle-orm/pg-core'
 
 export const users = pgTable(
   'users',
@@ -67,10 +67,21 @@ export const settings = pgTable(
   }
 )
 
+export const tokens = pgTable(
+  'tokens',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    userId: uuid('userId').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+    type: pgEnum('type', ['access', 'refresh'])('type').notNull(),
+    content: text('content').notNull()
+  }
+)
+
 export const usersRelations = relations(users, ({ one, many }) => ({
   tasks: many(tasks),
   tags: many(tags),
-  settings: one(settings)
+  settings: one(settings),
+  tokens: many(tokens)
 }))
 
 export const tasksRelations = relations(tasks, ({ one, many }) => ({
@@ -89,5 +100,9 @@ export const tagsRelations = relations(priorities, ({ one }) => ({
 }))
 
 export const settingsRelations = relations(settings, ({ one }) => ({
+  user: one(users)
+}))
+
+export const tokensRelations = relations(tokens, ({ one }) => ({
   user: one(users)
 }))
